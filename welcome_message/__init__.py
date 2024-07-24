@@ -120,8 +120,10 @@ def on_player_joined(server, player, info):
 
 def on_load(server: PluginServerInterface, old):
 
-    server.register_help_message('!!wm', _tr('register'))
+    load_config()
 
+    server.register_help_message('!!wm', _tr('register'))
+    
     command_builder = SimpleCommandBuilder()
     command_builder.command('!!wm list', list_welcome_message)
     command_builder.command('!!wm list <index>', list_welcome_message)
