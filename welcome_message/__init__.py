@@ -3,6 +3,7 @@ import random
 import json
 from mcdreforged.api.all import *
 import math
+import random
 
 __mcdr_ : PluginServerInterface
 page_size = 10
@@ -16,6 +17,14 @@ default_config = {
     "datetime": "1988-01-01",
     "error_message": "出错了喵，请联系服主喵~"
 }
+
+help_info = '''-------- &a Player Last Play &r--------
+&7!!mv help &f- &c显示帮助消息
+&7!!mv list [index] &f- &c显示欢迎消息列表,index代表页数
+&7!!mv add <text> &f- &c添加欢迎消息
+&7!!mv del <text> &f- &c删除欢迎消息
+-----------------------------------
+'''
 
 def load_config():
     try:
@@ -73,14 +82,6 @@ def get_welcome_message_list(server, context):
         resp += f'&r>>>>>> 第{index + 1}页/共{pages}页 <<<<<<'
     return server.reply(replace_code(resp))
 
-def replace_code(msg: str) -> str:
-    return msg.replace('&', '§')
-
-def get_online_players() -> list:
-    online_player_api = __mcdr_.get_plugin_instance('online_player_api')
-    return online_player_api.get_player_list()
-
-
 def add_welcome_message(server, context):
     if __mcdr_.get_permission_level(context['player']) < 3:
         return server.reply(replace_code(f'&c你没有权限添加消息喵~'))
@@ -103,14 +104,23 @@ def del_welcome_message(server, context):
         return server.reply(replace_code(f'删除消息&a{message}&r成功喵~'))
     else:
         return server.reply(replace_code(f'消息&a{message}&r不存在喵~'))
+    
+def show_help_info(server):
+    for line in help_info.splitlines():
+        server.reply(replace_code(line))
 
+#=======================================================================================================================
 
+def replace_code(msg: str) -> str:
+    return msg.replace('&', '§')
 
+#=======================================================================================================================
 
-
-        
-        
-
+def on_player_joined(server, player):
+    message_list = load_config()
+    message = random.choice(message_list['messages'])
+    message = message.replace('{player}', player)
+    server.execute('tellraw @a [{"text":"%s"}]' % replace_code(message))
 
 def on_load(server: PluginServerInterface, old):
     pass
@@ -124,7 +134,10 @@ def on_load(server: PluginServerInterface, old):
     command_builder.command('!!wm list <index>', get_welcome_message_list)
     command_builder.command('!!wm add <text>', add_welcome_message)
     command_builder.command('!!wm del <text>', del_welcome_message)
-    command_builder.command('!!wm get <player>', get_player_last_join)
+    command_builder.command('!!wm', show_help_info)
+    command_builder.command('!!wm help', show_help_info)
+    command_builder.arg('text', Text)
+    command_builder.arg('index', Integer)
 
     command_builder.register(server)
 
