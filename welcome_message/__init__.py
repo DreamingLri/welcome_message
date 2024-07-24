@@ -60,7 +60,7 @@ def list_welcome_message(server, context):
     return server.reply(replace_code(resp))
 
 def add_welcome_message(server, context):
-    if server.get_permission_level(context.get_info()) < 3:
+    if server.get_permission_level() < 3:
         return server.reply(replace_code(_tr('command.no_permission_add')))
     message = context['text']
     message_list = load_config()
@@ -70,7 +70,7 @@ def add_welcome_message(server, context):
     return server.reply(replace_code(_tr('command.add_success')))
 
 def del_welcome_message(server, context):
-    if server.get_permission_level(context.get_info()) < 3:
+    if server.get_permission_level() < 3:
         return server.reply(replace_code(_tr('command.no_permission_del')))
     index = context['index']
     message_list = load_config()
