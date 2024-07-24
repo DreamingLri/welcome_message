@@ -1,0 +1,14 @@
+{
+	"id": "welcome_message",
+	"version": "1.0.0",
+	"name": "welcome_message",
+	"description": {
+		"en_us": "Say welcome message when player join the server",
+		"zh_cn": "玩家加入服务器时发送欢迎消息"
+	},
+	"author": "DreamingLri",
+	"link": "https://github.com/DreamingLri/welcome_message",
+    "dependencies": {
+        "mcdreforged": ">=2.0.0"
+    }
+}
