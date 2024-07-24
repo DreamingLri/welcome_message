@@ -24,17 +24,7 @@ default_config = {
 # &7!!wm add <text> &f- &c添加欢迎消息
 # &7!!wm del <text> &f- &c删除欢迎消息
 # ------------------------------------
-# '''
-
-def load_config():
-    try:
-        with open(config_path, 'r') as file:
-            data = json.load(file)
-            return data
-    except FileNotFoundError:
-        with open(config_path, 'w') as file:
-            json.dump(default_config, file, indent=4)
-        return default_config    
+# '''   
 
 def get_welcome_message_list(server, context):
     if 'index' in context:
@@ -113,6 +103,16 @@ def send_message(server: ServerInterface, player: str):
 
 #=======================================================================================================================
 
+def load_config():
+    try:
+        with open(config_path, 'r') as file:
+            data = json.load(file)
+            return data
+    except FileNotFoundError:
+        with open(config_path, 'w') as file:
+            json.dump(default_config, file, indent=4)
+        return default_config 
+
 def replace_code(msg: str) -> str:
     return msg.replace('&', '§')
 
@@ -123,16 +123,10 @@ def _tr(tag: str, *args):
 #=======================================================================================================================
 
 def on_player_joined(server, player, info):
-    message_list = load_config()
-    if len(message_list['messages']) == 0:
-        server.execute('tellraw %s [{"text":"%s"}]' % (player, replace_code(message_list['error_message'])))
-    else:
-        message = random.choice(message_list['messages'])
-        message = message.replace('{player}', player)
-        server.execute('tellraw %s [{"text":"%s"}]' % (player, replace_code(message)))
+    send_message(server, player)
 
 def on_load(server: PluginServerInterface, old):
-    pass
+
     global __mcdr_
     __mcdr_ = server
 
