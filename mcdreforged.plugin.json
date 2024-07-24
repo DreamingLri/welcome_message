@@ -10,5 +10,9 @@
 	"link": "https://github.com/DreamingLri/welcome_message",
     "dependencies": {
         "mcdreforged": ">=2.0.0"
-    }
+    },
+	"resources": [
+		"lang"
+	],
+	"archive_name": "welcome_message"
 }
