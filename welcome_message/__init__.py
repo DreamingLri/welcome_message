@@ -5,7 +5,6 @@ from mcdreforged.api.all import *
 import math
 import random
 
-__mcdr_ : PluginServerInterface
 page_size = 10
 
 config_path = 'config/welcome_message.json'
@@ -14,15 +13,7 @@ default_config = {
         "欢迎 {player} 加入服务器喵~",
         "欢迎 {player} 喵~"
         ],
-}
-
-# help_info = '''-------- &a Welcome Message &r--------
-# &7!!wm help &f- &c显示帮助消息
-# &7!!wm list [index] &f- &c显示欢迎消息列表,index代表页数
-# &7!!wm add <text> &f- &c添加欢迎消息
-# &7!!wm del <text> &f- &c删除欢迎消息
-# ------------------------------------
-# '''   
+} 
 
 def list_welcome_message(server, context, command: PlayerCommandSource):
     if 'index' in context:
@@ -84,7 +75,6 @@ def del_welcome_message(server, context):
         json.dump(message_list, file, indent=4)
     return server.reply(replace_code(_tr('command.del_success')))
     
-
 def show_help_info(context: PlayerCommandSource):
     server = context.get_server()
     info = context.get_info()
@@ -95,6 +85,8 @@ def show_help_info(context: PlayerCommandSource):
     server.reply(info, RText("§7!!wm list [index]§r").set_hover_text(_tr("message.hover_hint") + " §7!!wm list§r").set_click_event(RAction.suggest_command, "!!wm list") + ' ' + _tr("help.list"))
     server.reply(info, "------------------------------------")
 
+#=======================================================================================================================
+
 def send_message(server: ServerInterface, player: str):
     message_list = load_config()
     if len(message_list['messages']) == 0:
@@ -103,8 +95,6 @@ def send_message(server: ServerInterface, player: str):
         message = random.choice(message_list['messages'])
         message = message.replace('{player}', player)
         server.tell(player, message)
-
-#=======================================================================================================================
 
 def load_config():
     try:
@@ -129,9 +119,6 @@ def on_player_joined(server, player, info):
     send_message(server, player)
 
 def on_load(server: PluginServerInterface, old):
-
-    global __mcdr_
-    __mcdr_ = server
 
     server.register_help_message('!!wm', _tr('register'))
 
