@@ -18,13 +18,13 @@ default_config = {
     "error_message": "出错了喵，请联系服主喵~"
 }
 
-help_info = '''-------- &a Welcome Message &r--------
-&7!!wm help &f- &c显示帮助消息
-&7!!wm list [index] &f- &c显示欢迎消息列表,index代表页数
-&7!!wm add <text> &f- &c添加欢迎消息
-&7!!wm del <text> &f- &c删除欢迎消息
-------------------------------------
-'''
+# help_info = '''-------- &a Welcome Message &r--------
+# &7!!wm help &f- &c显示帮助消息
+# &7!!wm list [index] &f- &c显示欢迎消息列表,index代表页数
+# &7!!wm add <text> &f- &c添加欢迎消息
+# &7!!wm del <text> &f- &c删除欢迎消息
+# ------------------------------------
+# '''
 
 def load_config():
     try:
@@ -34,21 +34,7 @@ def load_config():
     except FileNotFoundError:
         with open(config_path, 'w') as file:
             json.dump(default_config, file, indent=4)
-        return default_config
-    
-def get_player_last_join(server, context):
-    player = context['player']
-    online_players = server.get_online_players()
-    resp: str
-    if player in online_players:
-        resp = f'玩家&a{player}&r当前&a在线喵~'
-    elif player in server.get_offline_players():
-        resp = f'玩家&a{player}&r最后一次登录时间为{server.get_player_last_join(player)}'
-    else:
-        resp = f'玩家&a{player}&r还没有登陆过喵·w·'
-    return server.reply(replace_code(resp))
-
-    
+        return default_config    
 
 def get_welcome_message_list(server, context):
     if 'index' in context:
@@ -105,22 +91,45 @@ def del_welcome_message(server, context):
     else:
         return server.reply(replace_code(f'消息&a{message}&r不存在喵~'))
     
-def show_help_info(server):
-    for line in help_info.splitlines():
-        server.reply(replace_code(line))
+
+def show_help_info(context: PlayerCommandSource):
+    server = context.get_server()
+    info = context.get_info()
+    server.reply(info, "-------- §a Welcome Message §r--------")
+    server.reply(info, RText("§7!!wm help§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!wm help") + ' ' + _tr("help.help"))
+    server.reply(info, RText("§7!!wm add <text>§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!wm add ") + ' ' + _tr("help.add"))
+    server.reply(info, RText("§7!!wm delete <text>§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!wm delete") + ' ' + _tr("help.delete"))
+    server.reply(info, RText("§7!!wm list§r").set_hover_text(_tr("command.hover_hint")).set_click_event(RAction.suggest_command, "!!wm list") + ' ' + _tr("help.list"))
+    server.reply(info, "------------------------------------")
+
+def send_message(server: ServerInterface, player: str):
+    message_list = load_config()
+    if len(message_list['messages']) == 0:
+        server.execute('tellraw %s [{"text":"%s"}]' % (player, replace_code(message_list['error_message'])))
+    else:
+        message = random.choice(message_list['messages'])
+        message = message.replace('{player}', player)
+        server.tell(player, message)
 
 #=======================================================================================================================
 
 def replace_code(msg: str) -> str:
     return msg.replace('&', '§')
 
+def _tr(tag: str, *args):
+    _str = PluginServerInterface.get_instance().tr(f'mcdr_announcements.{tag}', *args)
+    return _str
+
 #=======================================================================================================================
 
 def on_player_joined(server, player, info):
     message_list = load_config()
-    message = random.choice(message_list['messages'])
-    message = message.replace('{player}', player)
-    server.execute('tellraw %s [{"text":"%s"}]' % (player, replace_code(message)))
+    if len(message_list['messages']) == 0:
+        server.execute('tellraw %s [{"text":"%s"}]' % (player, replace_code(message_list['error_message'])))
+    else:
+        message = random.choice(message_list['messages'])
+        message = message.replace('{player}', player)
+        server.execute('tellraw %s [{"text":"%s"}]' % (player, replace_code(message)))
 
 def on_load(server: PluginServerInterface, old):
     pass
