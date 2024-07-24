@@ -59,7 +59,7 @@ def list_welcome_message(server, context):
     return server.reply(replace_code(resp))
 
 def add_welcome_message(server, context):
-    if __mcdr_.get_permission_level(context['player']) < 3:
+    if server.get_permission_level(context['player']) < 3:
         return server.reply(replace_code(_tr('command.no_permission_add')))
     message = context['text']
     message_list = load_config()
@@ -69,7 +69,7 @@ def add_welcome_message(server, context):
     return server.reply(replace_code(_tr('command.add_success')))
 
 def del_welcome_message(server, context):
-    if __mcdr_.get_permission_level(context['player']) < 3:
+    if server.get_permission_level(context['player']) < 3:
         return server.reply(replace_code(_tr('command.no_permission_del')))
     index = context['index']
     message_list = load_config()
@@ -85,10 +85,10 @@ def show_help_info(context: PlayerCommandSource):
     server = context.get_server()
     info = context.get_info()
     server.reply(info, "-------- §a Welcome Message §r--------")
-    server.reply(info, RText("§7!!wm help§r").set_hover_text(_tr("command.hover_hint") + " §7!!wm help§r").set_click_event(RAction.suggest_command, "!!wm help") + ' ' + _tr("help.help"))
-    server.reply(info, RText("§7!!wm add <text>§r").set_hover_text(_tr("command.hover_hint") + " §7!!wm add§r").set_click_event(RAction.suggest_command, "!!wm add ") + ' ' + _tr("help.add"))
-    server.reply(info, RText("§7!!wm del <index>§r").set_hover_text(_tr("command.hover_hint") + " §7!!wm del§r").set_click_event(RAction.suggest_command, "!!wm delete") + ' ' + _tr("help.delete"))
-    server.reply(info, RText("§7!!wm list [index]§r").set_hover_text(_tr("command.hover_hint") + " §7!!wm list§r").set_click_event(RAction.suggest_command, "!!wm list") + ' ' + _tr("help.list"))
+    server.reply(info, RText("§7!!wm help§r").set_hover_text(_tr("message.hover_hint") + " §7!!wm help§r").set_click_event(RAction.suggest_command, "!!wm help") + ' ' + _tr("help.help"))
+    server.reply(info, RText("§7!!wm add <text>§r").set_hover_text(_tr("message.hover_hint") + " §7!!wm add§r").set_click_event(RAction.suggest_command, "!!wm add ") + ' ' + _tr("help.add"))
+    server.reply(info, RText("§7!!wm del <index>§r").set_hover_text(_tr("message.hover_hint") + " §7!!wm del§r").set_click_event(RAction.suggest_command, "!!wm delete") + ' ' + _tr("help.delete"))
+    server.reply(info, RText("§7!!wm list [index]§r").set_hover_text(_tr("message.hover_hint") + " §7!!wm list§r").set_click_event(RAction.suggest_command, "!!wm list") + ' ' + _tr("help.list"))
     server.reply(info, "------------------------------------")
 
 def send_message(server: ServerInterface, player: str):
