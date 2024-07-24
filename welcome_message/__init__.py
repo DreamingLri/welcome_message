@@ -18,12 +18,12 @@ default_config = {
     "error_message": "出错了喵，请联系服主喵~"
 }
 
-help_info = '''-------- &a Player Last Play &r--------
-&7!!mv help &f- &c显示帮助消息
-&7!!mv list [index] &f- &c显示欢迎消息列表,index代表页数
-&7!!mv add <text> &f- &c添加欢迎消息
-&7!!mv del <text> &f- &c删除欢迎消息
------------------------------------
+help_info = '''-------- &a Welcome Message &r--------
+&7!!wm help &f- &c显示帮助消息
+&7!!wm list [index] &f- &c显示欢迎消息列表,index代表页数
+&7!!wm add <text> &f- &c添加欢迎消息
+&7!!wm del <text> &f- &c删除欢迎消息
+------------------------------------
 '''
 
 def load_config():
