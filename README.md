@@ -1,3 +1,5 @@
+**English** | [中文](README_CN.md)
+
 # welcome_message
 a mcdrefoged plugin for PSS server
 
