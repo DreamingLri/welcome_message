@@ -1,0 +1,22 @@
+welcome_message:
+  register: "welcome message plugin"
+  help:
+    help: "show this help list"
+    add: "add a new welcome message"
+    delete: "delete a welcome message"
+    list: "list all welcome messages"
+
+  command:
+    no_permission_add: "You don't have permission to add welcome message."
+    no_permission_delete: "You don't have permission to delete welcome message."
+    add_success: "Welcome message added successfully."
+    del_success: "Welcome message deleted successfully."
+
+  message:
+    hover_hint: "Click to fill"
+    page_error: "The page number is invalid."
+    message_not_found: "The welcome message is not found."
+    header: "------ &aWelcome Message &r------\n"
+    footer_zero: "&r>>>>>> Page 0/All 0 <<<<<<"
+    footer: "&r>>>>>> Page {index + 1}/All {pages} <<<<<<"
+    empty: "No welcome message now."
