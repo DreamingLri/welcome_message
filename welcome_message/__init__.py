@@ -116,7 +116,7 @@ def replace_code(msg: str) -> str:
 
 #=======================================================================================================================
 
-def on_player_joined(server, player):
+def on_player_joined(server, player, info):
     message_list = load_config()
     message = random.choice(message_list['messages'])
     message = message.replace('{player}', player)
