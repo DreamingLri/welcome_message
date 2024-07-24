@@ -16,7 +16,7 @@ welcome_message:
     hover_hint: "Click to fill"
     page_error: "The page number is invalid."
     message_not_found: "The welcome message is not found."
-    header: "------ &aWelcome Message &r------\\n"
+    header: "------ &aWelcome Message &r------"
     footer_zero: "&r>>>>>> Page 0/All 0 <<<<<<"
     footer: "&r>>>>>> Page {0}/All {0} <<<<<<"
     empty: "No welcome message now."

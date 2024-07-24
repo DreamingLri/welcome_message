@@ -41,7 +41,7 @@ def list_welcome_message(server, context):
         count += 1
     
     total = len(result_list)
-    resp = _tr('message.header')
+    resp = _tr('message.header') + '\n'
 
     if total == 0:
         resp += _tr('message.footer_zero')

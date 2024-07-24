@@ -1,4 +1,5 @@
 welcome_message:
+  register: "欢迎信息插件"
   help:
     help: "展示帮助信息"
     add: "添加新的欢迎信息"
@@ -15,7 +16,7 @@ welcome_message:
     hover_hint: "点击以填入"
     page_error: "查询页数超出范围喵~"
     message_not_found: "没有找到对应的欢迎信息喵~"
-    header: "------ &a消息列表 &r------\\n"
+    header: "------ &a消息列表 &r------"
     footer_zero: "&r>>>>>> 第0页/共0页 <<<<<<"
     footer: "&r>>>>>> 第{0}页/共{0}页 <<<<<<"
     empty: "当前没有欢迎信息喵~"
