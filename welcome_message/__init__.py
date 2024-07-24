@@ -120,7 +120,7 @@ def on_player_joined(server, player):
     message_list = load_config()
     message = random.choice(message_list['messages'])
     message = message.replace('{player}', player)
-    server.execute('tellraw @a [{"text":"%s"}]' % replace_code(message))
+    server.execute('tellraw %s [{"text":"%s"}]' % (player, replace_code(message)))
 
 def on_load(server: PluginServerInterface, old):
     pass
