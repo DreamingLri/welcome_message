@@ -30,36 +30,37 @@ def list_welcome_message(server, context):
     else:
         index = 0
     if index < 0:
-        return server.reply(replace_code(_tr('message.page_error')))
+        return server.reply(_tr('message.page_error'))
     
     global page_size
     message_list = load_config()
     result_list = []
-    index = 1
+    count = 1
     for message in message_list['messages']:
-        result_list.append(f'&r|- &f{index}: &a{message}&r')
-        index += 1
+        result_list.append(f'&r|- &f{count}: &a{message}&r')
+        count += 1
     
     total = len(result_list)
-    resp = replace_code(_tr('message.header'))
+    resp = _tr('message.header')
 
     if total == 0:
-        resp += replace_code(_tr('message.footer_zero'))
+        resp += _tr('message.footer_zero')
     else:
         pages = math.ceil(total / page_size)
-        if 0 <= index < pages:
+        if 0 <= index < pages - 1:
             cur_page = result_list[index * page_size: (index + 1) * page_size]
         elif index == pages - 1:
             cur_page = result_list[index * page_size:]
         else:
-            return server.reply(replace_code(_tr('message.page_error')))
+            server.reply(index)
+            return server.reply(_tr('message.footer_zero'))
         for message in cur_page:
             resp += message + '\n'
-        resp += replace_code(_tr('message.footer'))
+        resp += _tr('message.footer', index + 1, pages)
     return server.reply(replace_code(resp))
 
-def add_welcome_message(server, context: PlayerCommandSource):
-    if not context.has_permission_higher_than(3):
+def add_welcome_message(server, context):
+    if server.get_permission_level(context.get_info()) < 3:
         return server.reply(replace_code(_tr('command.no_permission_add')))
     message = context['text']
     message_list = load_config()
@@ -68,8 +69,8 @@ def add_welcome_message(server, context: PlayerCommandSource):
         json.dump(message_list, file, indent=4)
     return server.reply(replace_code(_tr('command.add_success')))
 
-def del_welcome_message(server, context: PlayerCommandSource):
-    if not context.has_permission_higher_than(3):
+def del_welcome_message(server, context):
+    if server.get_permission_level(context.get_info()) < 3:
         return server.reply(replace_code(_tr('command.no_permission_del')))
     index = context['index']
     message_list = load_config()
