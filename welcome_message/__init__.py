@@ -58,7 +58,7 @@ def list_welcome_message(server, context):
         resp += replace_code(_tr('message.footer'))
     return server.reply(replace_code(resp))
 
-def add_welcome_message(server, context):
+def add_welcome_message(server, context: PlayerCommandSource):
     if not context.has_permission_higher_than(3):
         return server.reply(replace_code(_tr('command.no_permission_add')))
     message = context['text']
@@ -68,7 +68,7 @@ def add_welcome_message(server, context):
         json.dump(message_list, file, indent=4)
     return server.reply(replace_code(_tr('command.add_success')))
 
-def del_welcome_message(server, context):
+def del_welcome_message(server, context: PlayerCommandSource):
     if not context.has_permission_higher_than(3):
         return server.reply(replace_code(_tr('command.no_permission_del')))
     index = context['index']
