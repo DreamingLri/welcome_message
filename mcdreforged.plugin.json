@@ -1,6 +1,6 @@
 {
 	"id": "welcome_message",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"name": "welcome_message",
 	"description": {
 		"en_us": "Say welcome message when player join the server",
