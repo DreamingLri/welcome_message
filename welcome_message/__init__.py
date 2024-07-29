@@ -15,7 +15,7 @@ default_config = {
         ],
 } 
 
-def list_welcome_message(server, context, command: PlayerCommandSource):
+def list_welcome_message(server, context):
     if 'index' in context:
         index = context['index'] - 1
     else:
@@ -48,9 +48,6 @@ def list_welcome_message(server, context, command: PlayerCommandSource):
         for message in cur_page:
             resp += message + '\n'
         resp += _tr('message.footer', index + 1, pages)
-        server.reply(replace_code(resp))
-        info = command.get_info()
-        server.reply(info, RText("§7!!wm help§r").set_hover_text(_tr("message.hover_hint") + " §7!!wm help§r").set_click_event(RAction.suggest_command, "!!wm help") + ' ' + _tr("help.help"))
     return server.reply(replace_code(resp))
 
 def add_welcome_message(server, context):
